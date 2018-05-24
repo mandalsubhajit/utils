@@ -38,4 +38,4 @@ def plot_partial_dependence(clf, X, features, n_cols=3, figsize=(10, 10)):
                         hspace=0.3)
     return fig, axs
 
-#fig, axs = plot_partial_dependence(clf, X_train, range(10), figsize=(15, 10))
+#fig, axs = plot_partial_dependence(clf, X_train, range(10), figsize=(10, 15))
