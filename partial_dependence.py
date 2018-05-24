@@ -6,6 +6,7 @@ Created on Wed May 23 21:12:54 2018
 @author: subhajit
 """
 
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -15,7 +16,7 @@ def plot_partial_dependence(clf, X, features, n_cols=3, figsize=(10, 10)):
     ncols=min(n_cols, len(features))
     axs = []
     for i, f_id in enumerate(features):
-        X_temp = X.copy().values
+        X_temp = X.values
         ax = fig.add_subplot(nrows, ncols, i + 1)
         
         x_scan = np.linspace(np.percentile(X_temp[:, f_id], 0.1), np.percentile(X_temp[:, f_id], 99.5), 10)
@@ -23,7 +24,7 @@ def plot_partial_dependence(clf, X, features, n_cols=3, figsize=(10, 10)):
         
         for point in x_scan:
             X_temp[:, f_id] = point
-            y_partial.append(np.average(clf.predict(X_temp)))
+            y_partial.append(np.average(clf.predict(pd.DataFrame(data=X_temp, columns=X.columns))))
         
         y_partial = np.array(y_partial)
         
