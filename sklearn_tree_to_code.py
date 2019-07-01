@@ -24,7 +24,7 @@ def tree_to_code(tree, feature_names):
             threshold = tree_.threshold[node]
             print('{}if {} <= {}:'.format(indent, name, threshold))
             recurse(tree_.children_left[node], depth + 1)
-            print('{}else:  # if {} > {}'.format(indent, name, threshold))
+            print('{}else:  # if {} > {}:'.format(indent, name, threshold))
             recurse(tree_.children_right[node], depth + 1)
         else:
             print('{}return {}'.format(indent, np.argmax(tree_.value[node][0])))
