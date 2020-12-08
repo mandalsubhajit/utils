@@ -13,6 +13,9 @@ tf_idf_matrix = vectorizer.fit_transform(org_names)
 
 '''
 
+import re
+from ftfy import fix_text
+
 def ngrams(string, n=3):
     string = fix_text(string) # fix text encoding issues
     string = string.encode("ascii", errors="ignore").decode() #remove non ascii chars
