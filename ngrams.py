@@ -1,7 +1,7 @@
 # code used in: https://medium.com/tim-black/fuzzy-string-matching-at-scale-41ae6ac452c2
 
 '''
-Sample Usage:
+Sample Usage: 'analyzer=ngrams' function in tf-idf vectorizer
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
