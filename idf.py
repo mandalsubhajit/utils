@@ -1,5 +1,5 @@
 # calculation of idf from scratch without requiring any external libraries
-# 25% faster than standard libraries when only idf is required
+# 35% faster than standard libraries when only idf is required
 
 '''
 Sample Usage: 
