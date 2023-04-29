@@ -15,7 +15,7 @@ def num_iv(Y, X, xname, max_bins=20):
   md = mode(bins).mode[0]
   xtail = list(filter(lambda x: x!=md, xtail))
   num_bins -= 1
-  bins = sorted([md]+almost.quantile(xtail, np.linspace(0, 1, num_bins+1)).tolist())
+  bins = sorted([md]+algos.quantile(xtail, np.linspace(0, 1, num_bins+1)).tolist())
  d1 = pd.DataFrame({'X': notmiss.X, 'Y': notmiss.Y, 'Bucket': pd.cut(notmiss.X, np.unique(bins), include_lowest=True)})
  d2 = d1.groupby('Bucket', as_index=True)
  
