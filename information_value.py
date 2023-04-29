@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import pandas.core.algorithms as algos
+from scipy.stats import mode
 
 def num_iv(Y, X, xname, max_bins=20):
  df = pd.DataFrame({'X': X, 'Y': Y})
@@ -8,6 +9,13 @@ def num_iv(Y, X, xname, max_bins=20):
  notmiss = df[['X', 'Y']][df.X.notnull()]
  
  bins = algos.quantile(notmiss.X, np.linspace(0, 1, max_bins+1))
+ num_bins = max_bins
+ xtail = notmiss.X.values.tolist()
+ if len(np.unique(bins)) == 2:
+  md = mode(bins).mode[0]
+  xtail = list(filter(lambda x: x!=md, xtail))
+  num_bins -= 1
+  bins = sorted([md]+almost.quantile(xtail, np.linspace(0, 1, num_bins+1)).tolist())
  d1 = pd.DataFrame({'X': notmiss.X, 'Y': notmiss.Y, 'Bucket': pd.cut(notmiss.X, np.unique(bins), include_lowest=True)})
  d2 = d1.groupby('Bucket', as_index=True)
  
