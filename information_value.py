@@ -27,7 +27,7 @@ def num_iv(Y: pd.Series,
         {
             "X": notmiss.X,
             "Y": notmiss.Y,
-            "Bucket": pd.cut(notmiss.X, np.unique(bins), include_lowest=True),
+            "Bucket": pd.cut(notmiss.X, sorted(np.unique(bins)), include_lowest=True),
         }
     )
     d2 = d1.groupby("Bucket", as_index=True)
