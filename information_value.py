@@ -156,7 +156,7 @@ def info_value(df: pd.DataFrame,
             iv_df = pd.concat([iv_df, var_iv], ignore_index=True)
 
     if 'iv_df' not in locals():
-        raise Exception('None of the features could be processed for IV calculation. Please check above log for more info and try running num_iv an char_iv on individual features to check for issues.')
+        raise Exception('None of the features could be processed for IV calculation. Please check above log for more info and try running num_iv and char_iv on individual features to check for issues.')
     iv = pd.DataFrame(iv_df.groupby("VAR_NAME").IV.sum())
     return iv_df, iv
 
