@@ -12,7 +12,7 @@ def num_iv(Y: pd.Series,
     justmiss = df[["X", "Y"]][df.X.isnull()]
     notmiss = df[["X", "Y"]][df.X.notnull()]
 
-    bins = pd.Series.quantile(notmiss.X, np.linspace(0, 1, max_bins + 1)).tolist()
+    bins = np.quantile(notmiss.X, np.linspace(0, 1, max_bins + 1)).tolist()
     # re-binning for highly skewed features
     num_bins = max_bins
     xtail = notmiss.X.values.tolist()
@@ -21,7 +21,7 @@ def num_iv(Y: pd.Series,
         xtail = list(filter(lambda x: x != md, xtail))
         num_bins -= 1
         bins = sorted(
-            [md] + pd.Series.quantile(xtail, np.linspace(0, 1, num_bins + 1)).tolist()
+            [md] + np.quantile(xtail, np.linspace(0, 1, num_bins + 1)).tolist()
         )
     d1 = pd.DataFrame(
         {
