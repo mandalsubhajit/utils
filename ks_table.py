@@ -1,6 +1,14 @@
 import pandas as pd
 import numpy as np
 
+def find_rob(sorted_array):
+    for i in range(1, len(sorted_array)):
+        if sorted_array[i] > sorted_array[i-1]:
+            yield i
+            return
+        if i == len(sorted_array) - 1:
+            yield None
+
 def kscalc(target, prob, max_bins=10):
     data = pd.DataFrame({'target': target, 'prob': prob})
     data['target0'] = 1 - data['target']
@@ -28,11 +36,16 @@ def kscalc(target, prob, max_bins=10):
     ks = max(kstable['KS'])
     kspartition = kstable.index[kstable['KS']==ks][0]
     
-    return ks, kspartition, kstable
+    event_prob = (kstable['events']/(kstable['events']+kstable['nonevents'])).values
+    rob = list(find_rob(event_prob))[0]
+    robpartition = kstable.index[rob] if rob else None
+    
+    
+    return ks, kspartition, robpartition, kstable
 
 
 if __name__ == '__main__':
     prob = np.random.uniform(0, 1, 10000)
     target = [np.random.binomial(1, p**10/10) for p in prob]
-    ks, kspartition, kstable = kscalc(target, prob)
+    ks, kspartition, robpartition, kstable = kscalc(target, prob)
     print(kstable)
