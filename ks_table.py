@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from typing import List
 
-def find_rank_order_break(sorted_array):
+def find_rank_order_break(sorted_array: List[float]):
     for i in range(1, len(sorted_array)):
         if sorted_array[i] > sorted_array[i-1]:
             yield i
