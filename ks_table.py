@@ -32,7 +32,7 @@ def kscalc(target: List[int], prob: List[float], max_bins: int=10):
     kstable['nonevent_pct'] = (kstable.nonevents / data['target0'].sum()).apply('{0:.2%}'.format)
     kstable['cum_eventpct']=(kstable.events / data['target'].sum()).cumsum()
     kstable['cum_noneventpct']=(kstable.nonevents / data['target0'].sum()).cumsum()
-    kstable['KS'] = np.round(kstable['cum_eventpct']-kstable['cum_noneventpct'], 3) * 100
+    kstable['KS'] = np.round(np.abs(kstable['cum_eventpct']-kstable['cum_noneventpct']), 3) * 100
 
     #Formating
     kstable['cum_eventpct']= kstable['cum_eventpct'].apply('{0:.2%}'.format)
