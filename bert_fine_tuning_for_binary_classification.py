@@ -82,9 +82,9 @@ trainer.train()
 # MODEL INFERENCE
 from transformers import pipeline
 
-tokenizer = AutoTokenizer.from_pretrained("D:\work\distilbert-base-uncased")
+tokenizer = AutoTokenizer.from_pretrained("D:\work\distilbert-base-uncased-imdb\checkpoint-3126")
 model = AutoModelForSequenceClassification.from_pretrained(
-    "D:\work\distilbert-base-uncased"
+    "D:\work\distilbert-base-uncased-imdb\checkpoint-3126"
 )
 
 classifier = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
