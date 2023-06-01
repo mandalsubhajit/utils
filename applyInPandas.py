@@ -27,7 +27,7 @@ def get_score(pdf):
     text = pdf['text']
     # process in batches to avoid gpu memory overflow
     batch_size = 10
-    x_val = np.vstack([get_cls_embedding(text[i:i+batch_size]) for i in range(0, len(text), batch_size)])
+    x_val = np.vstack([get_cls_embedding(text[i:i+batch_size], model, tokenizer) for i in range(0, len(text), batch_size)])
     score = clf.predict_proba(x_val)[:,1]
     
     return pdf.assign(score=score)
