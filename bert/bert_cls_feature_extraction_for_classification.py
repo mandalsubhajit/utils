@@ -56,8 +56,38 @@ y_val = df_val["category"]
 print(x_train.shape, y_train.shape, x_val.shape, y_val.shape)
 
 
+# RANDOM FOREST
 from sklearn.ensemble import RandomForestClassifier
 
 rf = RandomForestClassifier()
 rf.fit(x_train,y_train)
 rf.score(x_val,y_val) 
+
+
+# NEURAL NETWORK
+import tensorflow as tf
+from keras.models import Sequential, Model
+from keras.layers import Dense, Conv1D, AveragePooling1D, Flatten, Input, Lambda, concatenate, Dropout, Reshape
+import keras.backend as K
+
+num_features = x_train.shape[1]
+num_classes = 5
+
+model = Sequential()
+model.add(Input(shape=(num_features,)))
+model.add(Dropout(0.5))
+model.add(Dense(num_features//2, activation='relu'))
+model.add(Dense(num_classes, activation='softmax'))
+
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+print(model.summary())
+
+label2id = {'business':0,
+          'entertainment':1,
+          'sport':2,
+          'tech':3,
+          'politics':4
+          }
+y_tf_train = tf.keras.utils.to_categorical(y_train.map(label2id), num_classes=num_classes)
+y_tf_val = tf.keras.utils.to_categorical(y_val.map(label2id), num_classes=num_classes)
+model.fit(x_train, y_tf_train, validation_data=(x_val, y_tf_val), verbose=1, epochs=5)
