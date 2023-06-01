@@ -34,7 +34,7 @@ model = AutoModel.from_pretrained("D:\work\distilbert-base-uncased").to(device)
 train_text = df_train["text"].values.tolist()
 val_text = df_val["text"].values.tolist()
 
-def get_cls_embedding(batch):
+def get_cls_embedding(batch, model, tokenizer):
     tokenized_batch = tokenizer(batch, padding = True, truncation = True, return_tensors="pt")
     tokenized_batch = {k:torch.tensor(v).to(device) for k,v in tokenized_batch.items()}
     with torch.no_grad():
@@ -47,10 +47,10 @@ def get_cls_embedding(batch):
 
 batch_size = 10
 
-x_train = np.vstack([get_cls_embedding(train_text[i:i+batch_size]) for i in tqdm(range(0, len(train_text), batch_size))])
+x_train = np.vstack([get_cls_embedding(train_text[i:i+batch_size], model, tokenizer) for i in tqdm(range(0, len(train_text), batch_size))])
 y_train = df_train["category"]
 
-x_val = np.vstack([get_cls_embedding(val_text[i:i+batch_size]) for i in tqdm(range(0, len(val_text), batch_size))])
+x_val = np.vstack([get_cls_embedding(val_text[i:i+batch_size], model, tokenizer) for i in tqdm(range(0, len(val_text), batch_size))])
 y_val = df_val["category"]
 
 print(x_train.shape, y_train.shape, x_val.shape, y_val.shape)
