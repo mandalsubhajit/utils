@@ -40,3 +40,20 @@ def plot_partial_dependence(clf, X, features, n_cols=3, figsize=(10, 10)):
     return fig, axs
 
 #fig, axs = plot_partial_dependence(clf, X_train, range(10), figsize=(10, 15))
+
+if __name__ == '__main__':
+    from sklearn.datasets import load_breast_cancer
+    import pandas as pd
+    from xgboost import XGBClassifier
+    # load data
+    data = load_breast_cancer(return_X_y=False)
+    X = pd.DataFrame(data.data, columns=data.feature_names)
+    y = pd.Series(data.target, name='response')
+    clf = XGBClassifier(n_estimators=100, max_depth=2, learning_rate=0.01, objective='binary:logistic')
+    # fit model
+    clf.fit(X, y)
+    # generate partial dependence plots
+    for i in range(0, X.shape[1], 9):
+        feature_ids = range(i, min(i+9, X.shape[1]))
+        fig, axs = plot_partial_dependence(clf, X, feature_ids, figsize=(15, 10))
+        fig.savefig(f'./partial_dependence_{min(feature_ids)}_{max(feature_ids)}.png')
