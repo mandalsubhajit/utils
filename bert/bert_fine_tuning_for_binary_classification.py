@@ -6,8 +6,10 @@ import evaluate
 import numpy as np
 import torch
 
-print(torch.cuda.current_device())
+print('Device: ', torch.cuda.current_device())
 
+# 1. LOAD DATA
+# if the data is in a pandas dataframe we need to convert it to a torch dataset (example code given in ./pandas_to_torch_dataset.py)
 imdb = load_dataset("imdb")
 
 '''
@@ -34,7 +36,7 @@ tokenized_imdb = imdb.map(preprocess_function, batched=True)
 
 
 
-
+# 2. DEFINE ACCURACY METRICS FOR FINE TUNING
 accuracy = evaluate.load("accuracy")
 
 def compute_metrics(eval_pred):
@@ -44,7 +46,7 @@ def compute_metrics(eval_pred):
 
 
 
-
+# 3. LOAD THE MODEL TO FINE TUNE
 id2label = {0: "NEGATIVE", 1: "POSITIVE"}
 label2id = {"NEGATIVE": 0, "POSITIVE": 1}
 
@@ -52,6 +54,9 @@ model = AutoModelForSequenceClassification.from_pretrained(
     "D:\work\distilbert-base-uncased", num_labels=2, id2label=id2label, label2id=label2id
 )
 
+
+
+# 4. FINE TUNING
 training_args = TrainingArguments(
     output_dir="D:\work\distilbert-base-uncased-imdb",
     learning_rate=2e-5,
