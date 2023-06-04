@@ -8,7 +8,7 @@ broadcasted_clf = sc.broadcast(clf)
 broadcasted_model = sc.broadcast(model)
 broadcasted_tokenizer = sc.broadcast(tokenizer)
 
-def get_cls_embedding(batch, model, tokenizer):
+def get_cls_embedding(batch, model, tokenizer, device):
     tokenized_batch = tokenizer(batch, padding = True, truncation = True, return_tensors="pt")
     tokenized_batch = {k:torch.tensor(v).to(device) for k,v in tokenized_batch.items()}
     with torch.no_grad():
@@ -27,7 +27,7 @@ def get_score(pdf):
     text = pdf['text']
     # process in batches to avoid gpu memory overflow
     batch_size = 10
-    x_val = np.vstack([get_cls_embedding(text[i:i+batch_size], model, tokenizer) for i in range(0, len(text), batch_size)])
+    x_val = np.vstack([get_cls_embedding(text[i:i+batch_size], model, tokenizer, device) for i in range(0, len(text), batch_size)])
     score = clf.predict_proba(x_val)[:,1]
     
     return pdf.assign(score=score)
