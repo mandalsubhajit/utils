@@ -33,7 +33,7 @@ def get_score(pdf):
     model = broadcasted_model.value.to(device)
     tokenizer = broadcasted_tokenizer.value
     
-    text = pdf['text']
+    text = [str(t) for t in pdf['text'].fillna('').tolist()]
     # process in batches to avoid gpu memory overflow
     batch_size = 10
     x_val = np.vstack([get_cls_embedding(text[i:i+batch_size], model, tokenizer, device) for i in range(0, len(text), batch_size)])
