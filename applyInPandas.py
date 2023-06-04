@@ -1,6 +1,15 @@
 import pyspark.sql.functions as F
 import pyspark.sql.types as T
 import torch
+import numpy as np
+
+'''
+This is just an example scoring snippet (not a standalone code) to demonstrate how to implement distributed scoring in Pyspark with applyInPandas.
+The following variables are assumed to be defined and trained before this stage, reference: ./bert/bert_cls_feature_extraction_for_classification.py
+model: large language model, e.g. distilbert-base-uncased
+tokenizer: tokenizer for the large language model
+clf: classifier like random forest trained on bert extracted features
+'''
 
 # broadcast the models to worker nodes for distributed processing
 sc = spark.sparkContext
