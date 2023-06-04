@@ -2,13 +2,18 @@
 import tensorflow as tf
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
 
 dataset = load_breast_cancer(as_frame=True)
 feature_df = dataset['data']
 target = dataset['target']
 num_classes = target.nunique()
 
-X_train, X_val, y_train, y_val = train_test_split(feature_df, target, test_size=0.2, stratify=target)
+# scaling data for faster training convergence
+scaler = MinMaxScaler(feature_range=(0,1))
+X = scaler.fit_transform(feature_df)
+
+X_train, X_val, y_train, y_val = train_test_split(X, target, test_size=0.2, stratify=target)
 
 if num_classes > 2:
     # need to transform target variable into one-hot representation
