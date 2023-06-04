@@ -3,6 +3,7 @@ import numpy as np
 import datasets
 import torch
 
+# LOAD PANDAS DATAFRAME 
 datapath = './bbc-text.csv'
 df = pd.read_csv(datapath)
 df.head()
@@ -16,7 +17,7 @@ df.head()
 4  entertainment  ocean s twelve raids box office ocean s twelve...
 '''
 
-# WITH CUSTOM DATASET CLASS
+# USING CUSTOM DATASET CLASS
 class Dataset(torch.utils.data.Dataset):
 
     def __init__(self, df):
@@ -41,7 +42,7 @@ df_dataset = Dataset(df)
 
 
 
-# WITH from_pandas
+# USING from_pandas
 df_train, df_val = np.split(df.sample(frac=1, random_state=42), 
                                      [int(.8*len(df))])
 df_dataset_dict = datasets.DatasetDict({'train': datasets.Dataset.from_pandas(df_train), 
