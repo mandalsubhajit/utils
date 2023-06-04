@@ -8,7 +8,7 @@ This is just an example scoring snippet (not a standalone code) to demonstrate h
 The following variables are assumed to be defined and trained before this stage, reference: ./bert/bert_cls_feature_extraction_for_classification.py
 model: large language model, e.g. distilbert-base-uncased
 tokenizer: tokenizer for the large language model
-clf: classifier like random forest trained on bert extracted features
+clf: classifier like random forest trained on extracted features from the LLM
 '''
 
 # broadcast the models to worker nodes for distributed processing
