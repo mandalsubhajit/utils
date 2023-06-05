@@ -28,14 +28,17 @@ def get_cls_embedding(batch, model, tokenizer, device):
     return cls_batch
 
 def get_score(pdf):
+    # load the models again in worker node from broadcasted objects
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     clf = broadcasted_clf.value
     model = broadcasted_model.value.to(device)
     tokenizer = broadcasted_tokenizer.value
     
+    # write the processing code as you would process a pandas dataframe, not a spark dataframe
+    # exploit the benefits of vectorization wherever possible, as vector processing is faster than a for loop
     text = [str(t) for t in pdf['text'].fillna('').tolist()]
     # process in batches to avoid gpu memory overflow
-    batch_size = 10
+    batch_size = 16
     x_val = np.vstack([get_cls_embedding(text[i:i+batch_size], model, tokenizer, device) for i in range(0, len(text), batch_size)])
     score = clf.predict_proba(x_val)[:,1]
     
