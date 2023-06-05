@@ -45,6 +45,8 @@ def get_score(pdf):
     return pdf.assign(score=score)
 
 
+# repartition the data wisely; because each partition will be processed in parallel as pandas dataframes
+# the number of partitions should be based on the number of workers and size of the data
 df = df.repartitionByRange(8, 'date')
 df = df \
     .groupBy(F.spark_partition_id().alias('_pid')) \
