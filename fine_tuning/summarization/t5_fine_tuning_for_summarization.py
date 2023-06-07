@@ -43,6 +43,9 @@ data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=checkpoint)
 
 # 2. DEFINE ACCURACY METRICS
 rouge = evaluate.load("rouge")
+# in offline mode:-
+# a. download the rouge.py file manually from https://github.com/huggingface/evaluate/tree/main/metrics/rouge/rouge.py
+# b. rouge = evaluate.load("local/path/to/rouge.py")
 
 
 def compute_metrics(eval_pred):
