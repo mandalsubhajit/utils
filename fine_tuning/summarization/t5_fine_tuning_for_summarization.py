@@ -1,3 +1,4 @@
+!pip install rouge_score
 from datasets import load_dataset
 from transformers import AutoTokenizer
 from transformers import DataCollatorForSeq2Seq
