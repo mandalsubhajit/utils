@@ -65,7 +65,8 @@ def compute_metrics(eval_pred):
 
 # 3. TRAIN MODEL
 # Tips and Tricks:
-# a. If you get eval_loss = nan, try setting fp16=False
+# a. if you get eval_loss = nan, try setting fp16=False
+# b. if slow improvement in rouge from epoch to epoch or low rouge values, try increaseing learning_rate to 2e-4, 2e-3 etc.
 
 model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 
