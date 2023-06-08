@@ -64,6 +64,9 @@ def compute_metrics(eval_pred):
 
 
 # 3. TRAIN MODEL
+# Tips and Tricks:
+# a. If you get eval_loss = nan, try setting fp16=False
+
 model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 
 training_args = Seq2SeqTrainingArguments(
