@@ -137,6 +137,7 @@ class RewardTrainer(Trainer):
 # Train the model, woohoo.
 trainer = RewardTrainer(
     model=model,
+    tokenizer=tokenizer,
     args=training_args,
     train_dataset=tokenized_ds["train"],
     eval_dataset=tokenized_ds["validation"],
