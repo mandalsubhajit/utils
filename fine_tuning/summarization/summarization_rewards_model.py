@@ -144,4 +144,5 @@ trainer = RewardTrainer(
     data_collator=RewardDataCollatorWithPadding(tokenizer=tokenizer),
 )
 
+print(training_args.device)
 trainer.train(resume_from_checkpoint=False)
