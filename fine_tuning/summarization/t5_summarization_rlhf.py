@@ -11,23 +11,6 @@ from trl.core import LengthSampler
 
 tqdm.pandas()
 
-########################################################################
-# This is a fully working simple example to use trl with accelerate.
-#
-# This example fine-tunes a GPT2 model on the IMDB dataset using PPO
-# (proximal policy optimization).
-# in any of the following settings (with the same script):
-#   - single CPU or single GPU
-#   - multi GPUS (using PyTorch distributed mode)
-#   - multi GPUS (using DeepSpeed ZeRO-Offload stages 1 & 2)
-#   - fp16 (mixed-precision) or fp32 (normal precision)
-#
-# To run it in each of these various modes, first initialize the accelerate
-# configuration with `accelerate config`
-#
-########################################################################
-
-
 # We first define the configuration of the experiment, defining the model, the dataset,
 # the training parameters, and the PPO parameters.
 # Check the default arguments in the `PPOConfig` class for more details.
@@ -47,18 +30,13 @@ config = PPOConfig(
 )
 
 
-# We then define the arguments to pass to the sentiment analysis pipeline.
-# We set `return_all_scores` to True to get the sentiment score for each token.
-#sent_kwargs = {"return_all_scores": True, "function_to_apply": "none", "batch_size": 16}
+# We then load and prepare the data.
 
 dataset = load_dataset("billsum", split="ca_test")
 tokenizer = AutoTokenizer.from_pretrained(config.model_name)
 
-# input_size = LengthSampler(2, 8)
-
 def tokenize(sample):
     sample["input_ids"] = tokenizer.encode(sample["text"])
-    #sample["query"] = tokenizer.decode(sample["input_ids"])
     return sample
 
 dataset = dataset.map(tokenize, batched=False)
