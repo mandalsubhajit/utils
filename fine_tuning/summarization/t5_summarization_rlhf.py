@@ -3,10 +3,10 @@ from typing import Optional
 import torch
 from datasets import load_dataset
 from tqdm import tqdm
-from transformers import AutoModelForSequenceClassification, AutoTokenizer, HfArgumentParser, pipeline
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 from trl import AutoModelForSeq2SeqLMWithValueHead, PPOConfig, PPOTrainer, set_seed
-from trl.core import LengthSampler
+# from trl.core import LengthSampler
 
 
 tqdm.pandas()
