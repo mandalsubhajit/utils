@@ -37,11 +37,12 @@ dataset = load_dataset("billsum", split="ca_test")
 tokenizer = AutoTokenizer.from_pretrained(config.model_name)
 
 def tokenize(sample):
-    sample["input_ids"] = tokenizer.encode(sample["text"])
+    prefix = "summarize: "
+    sample["input_ids"] = tokenizer.encode(prefix + sample["text"])
+    sample["query"] = prefix + sample["text"]
     return sample
 
 dataset = dataset.map(tokenize, batched=False)
-dataset = dataset.rename_columns({'text': 'query'})
 dataset.set_format(type="torch")
 
 
