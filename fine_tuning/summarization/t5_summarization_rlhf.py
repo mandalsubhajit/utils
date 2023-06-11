@@ -43,6 +43,7 @@ def tokenize(sample):
     return sample
 
 dataset = dataset.map(tokenize, batched=False)
+dataset = dataset.remove_columns(["text"])
 dataset.set_format(type="torch")
 
 
