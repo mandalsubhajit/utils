@@ -92,13 +92,13 @@ print('Device: ', ppo_trainer.accelerator.device)
 for epoch, batch in tqdm(enumerate(ppo_trainer.dataloader)):
     query_tensors = batch["input_ids"]
 
-    # Get response from gpt2
+    # Get response from t5
     response_tensors = ppo_trainer.generate(
         query_tensors, return_prompt=False, length_sampler=None, **generation_kwargs
     )
     batch["response"] = tokenizer.batch_decode(response_tensors)
 
-    # Compute sentiment score
+    # Compute rewards
     reward_inputs = reward_tokenizer(batch["response"], batch["query"], max_length=384, truncation="only_second", return_tensors="pt")
     with torch.no_grad():
         outputs = reward_model(**reward_inputs)[0]
