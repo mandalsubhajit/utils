@@ -27,6 +27,7 @@ config = PPOConfig(
     gradient_accumulation_steps=1,
     early_stopping=False,
     target_kl=0.1,
+    ppo_epochs=4,
 )
 
 
