@@ -42,6 +42,7 @@ model = AutoModelForSequenceClassification.from_pretrained('D:\work\distilbert-b
 
 # Turn the dataset into pairs of post + summaries, where text_j is the preferred post + summary and text_k is the other.
 def preprocess_function(examples):
+    prefix = "summarize: "
     context, better, worse = [], [], []
     for info, summaries, choice in zip(examples["info"], examples["summaries"], examples["choice"]):
         if len(summaries) != 2 or choice not in (0, 1):
@@ -49,7 +50,7 @@ def preprocess_function(examples):
                 f"There should be two summaries with a choice that's either 0 or 1. Received {len(summaries)} summaries and choice={choice}."
             )
         original_text_field = "post" if info["post"] is not None else "article"
-        context.append(info[original_text_field])
+        context.append(prefix + info[original_text_field])
         better.append(summaries[choice]["text"])
         worse.append(summaries[0 if choice == 1 else 1]["text"])
     
