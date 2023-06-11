@@ -19,7 +19,7 @@ tqdm.pandas()
 # Define and parse arguments.
 
 config = PPOConfig(
-    model_name='D:\work\\t5-small',
+    model_name='D:\work\\t5-small-billsum',
     learning_rate=1.41e-5,
     log_with=None,
     mini_batch_size=16,
