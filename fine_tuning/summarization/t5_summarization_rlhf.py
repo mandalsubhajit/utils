@@ -92,24 +92,25 @@ generation_kwargs = {
 
 
 print('Device: ', ppo_trainer.accelerator.device)
-for epoch, batch in tqdm(enumerate(ppo_trainer.dataloader)):
-    query_tensors = batch["input_ids"]
+for epoch in tqdm(range(config.ppo_epochs)):
+    for step, batch in tqdm(enumerate(ppo_trainer.dataloader)):
+        query_tensors = batch["input_ids"]
 
-    # Get response from t5
-    response_tensors = ppo_trainer.generate(
-        query_tensors, return_prompt=False, length_sampler=None, **generation_kwargs
-    )
-    batch["response"] = tokenizer.batch_decode(response_tensors)
+        # Get response from t5
+        response_tensors = ppo_trainer.generate(
+            query_tensors, return_prompt=False, length_sampler=None, **generation_kwargs
+        )
+        batch["response"] = tokenizer.batch_decode(response_tensors)
 
-    # Compute rewards
-    reward_inputs = reward_tokenizer(batch["response"], batch["query"], max_length=384, truncation="only_second", return_tensors="pt")
-    with torch.no_grad():
-        outputs = reward_model(**reward_inputs)[0]
-    rewards = [torch.Tensor(output) for output in outputs]
+        # Compute rewards
+        reward_inputs = reward_tokenizer(batch["response"], batch["query"], max_length=384, truncation="only_second", return_tensors="pt")
+        with torch.no_grad():
+            outputs = reward_model(**reward_inputs)[0]
+        rewards = [torch.Tensor(output) for output in outputs]
 
-    # Run PPO step
-    stats = ppo_trainer.step(query_tensors, response_tensors, rewards)
-    ppo_trainer.log_stats(stats, batch, rewards)
+        # Run PPO step
+        stats = ppo_trainer.step(query_tensors, response_tensors, rewards)
+        ppo_trainer.log_stats(stats, batch, rewards)
     
     model.save_pretrained("D:\work\distilbert-base-uncased-rlhf", push_to_hub=False)
     tokenizer.save_pretrained("D:\work\distilbert-base-uncased-rlhf", push_to_hub=False)
