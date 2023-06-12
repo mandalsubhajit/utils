@@ -104,8 +104,8 @@ for epoch, batch in tqdm(enumerate(ppo_trainer.dataloader)):
     # Compute rewards
     reward_inputs = reward_tokenizer(batch["response"], batch["query"], max_length=384, truncation="only_second", return_tensors="pt")
     with torch.no_grad():
-        outputs = reward_model(**reward_inputs)[0]
-    rewards = [torch.Tensor(output) for output in outputs]
+        outputs = reward_model(**reward_inputs)[0].detach().numpy()
+    rewards = [torch.tensor(output) for output in outputs]
 
     # Run PPO step
     stats = ppo_trainer.step(query_tensors, response_tensors, rewards)
