@@ -25,7 +25,7 @@ config = PPOConfig(
     mini_batch_size=16,
     batch_size=256,
     gradient_accumulation_steps=1,
-    early_stopping=False,
+    early_stopping=True,
     target_kl=0.1,
     ppo_epochs=4,
 )
