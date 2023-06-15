@@ -67,6 +67,7 @@ def compute_metrics(eval_pred):
 # Tips and Tricks:
 # a. if you get eval_loss = nan, try setting fp16=False
 # b. if slow or random change in rouge from epoch to epoch, try adjusting the learning_rate
+# c. don't worry about data collection for fine tuning, even a small dataset with 100-200 rows may be sufficient for fine tuning. Start small and find out!
 
 model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 
@@ -81,7 +82,7 @@ training_args = Seq2SeqTrainingArguments(
     save_total_limit=3,
     num_train_epochs=4,
     predict_with_generate=True,
-    fp16=True,
+    fp16=False,
     push_to_hub=False,
 )
 
