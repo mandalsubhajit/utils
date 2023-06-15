@@ -51,3 +51,38 @@ df = df.repartitionByRange(8, 'date')
 df = df \
     .groupBy(F.spark_partition_id().alias('_pid')) \
     .applyInPandas(get_score, T.StructType(df.schema.fields + [T.StructField('score', T.FloatType(), True)]))
+
+
+
+############### EXAMPLE WITHOUT BROADCASTING, WHEN WE CAN LOAD MODELS DIRECTLY FROM PATH ###############
+
+import numpy as np
+
+def embed_func(df):
+    tokenizer = AutoTokenizer.from_pretrained("allenai/specter")
+    model = AutoModel.from_pretrained("allenai/specter")
+
+    title_abs = [d.title + tokenizer.sep_token + d.abstract  for idx, d in df.iterrows()]
+
+    def chunks(lst, n):
+        """Yield successive n-sized chunks from lst."""
+        for i in range(0, len(lst), n):
+          yield lst[i:i + n]
+
+    batch_size = 20
+    embeddings_chunks = []
+    for c in chunks(title_abs, batch_size):
+        # preprocess the input
+        inputs = tokenizer(c, padding=True, truncation=True, return_tensors="pt", max_length=512)
+        result = model(**inputs)
+        # take the first token in the batch as the embedding
+        embeddings = result.last_hidden_state[:, 0, :].cpu().detach().numpy()
+        embeddings_chunks.append(embeddings)
+
+    embeddings = np.concatenate(embeddings_chunks)
+
+    return_df = (
+        df[["id"]]
+        .assign(embedding=list(embeddings))
+    )
+    return return_df
