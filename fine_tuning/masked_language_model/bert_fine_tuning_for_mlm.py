@@ -85,7 +85,7 @@ batch_size = 64
 logging_steps = len(downsampled_dataset["train"]) // batch_size
 
 training_args = TrainingArguments(
-    output_dir=f"D:\\work\\distilbert-base-uncased-finetuned-imdb",
+    output_dir="D:\\work\\distilbert-base-uncased-finetuned-imdb",
     overwrite_output_dir=True,
     evaluation_strategy="epoch",
     save_strategy="epoch",
