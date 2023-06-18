@@ -6,6 +6,22 @@ from transformers import TrainingArguments, Trainer
 imdb_dataset = load_dataset("imdb")
 imdb_dataset
 
+'''
+DatasetDict({
+    train: Dataset({
+        features: ['text', 'label'],
+        num_rows: 25000
+    })
+    test: Dataset({
+        features: ['text', 'label'],
+        num_rows: 25000
+    })
+    unsupervised: Dataset({
+        features: ['text', 'label'],
+        num_rows: 50000
+    })
+})
+'''
 
 model_checkpoint = "D:\work\distilbert-base-uncased"
 tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
