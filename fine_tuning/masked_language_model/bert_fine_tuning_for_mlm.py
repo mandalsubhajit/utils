@@ -3,6 +3,7 @@ from transformers import AutoModelForMaskedLM, AutoTokenizer
 from transformers import DataCollatorForLanguageModeling
 from transformers import TrainingArguments, Trainer
 
+# load data
 imdb_dataset = load_dataset("imdb")
 imdb_dataset
 
