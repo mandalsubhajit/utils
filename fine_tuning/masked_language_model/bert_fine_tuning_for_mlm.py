@@ -69,7 +69,7 @@ lm_datasets
 data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15)
 
 
-# optional: downsampling data for fast and light training
+# downsampling data for fast and light training and train-test splitting
 train_size = 10_000
 test_size = int(0.1 * train_size)
 
