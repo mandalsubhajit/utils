@@ -45,6 +45,8 @@ train_dataloader = DataLoader(train_examples, shuffle=True, batch_size=16)
 
 train_loss = losses.BatchAllTripletLoss(model=model)
 
-model.fit(train_objectives=[(train_dataloader, train_loss)], epochs=10)
+model.fit(train_objectives=[(train_dataloader, train_loss)],
+          epochs=10,
+          output_path='D:\\work\\distilbert-base-uncased-trec')
 
-model.save('D:\\work\\distilbert-base-uncased-trec')
+# model.save('D:\\work\\distilbert-base-uncased-trec')
