@@ -3,6 +3,7 @@ from torch.utils.data import DataLoader
 from sentence_transformers import InputExample
 from sentence_transformers import losses
 from sentence_transformers import SentenceTransformer, models
+from sentence_transformers import evaluation
 
 ## Step 1: use an existing language model
 word_embedding_model = models.Transformer('D:\\work\\distilbert-base-uncased')
@@ -45,8 +46,16 @@ train_dataloader = DataLoader(train_examples, shuffle=True, batch_size=16)
 
 train_loss = losses.BatchAllTripletLoss(model=model)
 
+sentences1 = ['The man was having food', 'Solve this puzzle', 'You want your model to evaluate on']
+sentences2 = ['He was eating a piece of bread', 'The evaluator matches sentences1[i] with sentences2[i]', 'Compute the cosine similarity and compares it to scores[i]']
+scores = [1, 0, 0]
+
+evaluator = evaluation.EmbeddingSimilarityEvaluator(sentences1, sentences2, scores)
+
 model.fit(train_objectives=[(train_dataloader, train_loss)],
           epochs=10,
+          evaluator=evaluator,
+          evaluation_steps=50,
           output_path='D:\\work\\distilbert-base-uncased-trec')
 
 # model.save('D:\\work\\distilbert-base-uncased-trec')
