@@ -46,11 +46,13 @@ train_dataloader = DataLoader(train_examples, shuffle=True, batch_size=16)
 
 train_loss = losses.BatchAllTripletLoss(model=model)
 
+##### OPTIONAL #####
 sentences1 = ['The man was having food', 'Solve this puzzle', 'You want your model to evaluate on']
 sentences2 = ['He was eating a piece of bread', 'The evaluator matches sentences1[i] with sentences2[i]', 'Compute the cosine similarity and compares it to scores[i]']
 scores = [1, 0, 0]
 
 evaluator = evaluation.EmbeddingSimilarityEvaluator(sentences1, sentences2, scores)
+####################
 
 model.fit(train_objectives=[(train_dataloader, train_loss)],
           epochs=10,
