@@ -32,7 +32,7 @@ DatasetDict({
 
 
 
-
+# prepare training data: train_examples.append(InputExample(texts=[example['text']], label=example['fine_label']))
 train_examples = []
 train_data = dataset['train']
 # For agility we only 1/2 of our available data
