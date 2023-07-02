@@ -15,6 +15,7 @@ if __name__ == '__main__':
     vectors = np.random.randn(num_rows, len_vec)
     
     print(simhash(vectors, hashkeys))
+    print([np.binary_repr(h, width=len_hash) for h in simhash(vectors, hashkeys)])
     
     # saving hash keys
     # np.save('hashkeys.npy', hashkeys)
