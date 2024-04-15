@@ -51,7 +51,8 @@ def num_iv(Y: pd.Series,
 
     d3["EVENT_DIST"] = d3.EVENT / d3.EVENT.sum()
     d3["NON_EVENT_DIST"] = d3.NONEVENT / d3.NONEVENT.sum()
-    d3["WOE"] = np.log(d3.EVENT_DIST / d3.NON_EVENT_DIST)
+    with np.errstate(divide='ignore'):
+        d3["WOE"] = np.log(d3.EVENT_DIST / d3.NON_EVENT_DIST)
     d3["IV"] = (d3.EVENT_DIST - d3.NON_EVENT_DIST) * d3["WOE"]
     d3["VAR_NAME"] = xname
     d3 = d3[
@@ -102,7 +103,8 @@ def char_iv(Y: pd.Series,
 
     d3["EVENT_DIST"] = d3.EVENT / d3.EVENT.sum()
     d3["NON_EVENT_DIST"] = d3.NONEVENT / d3.NONEVENT.sum()
-    d3["WOE"] = np.log(d3.EVENT_DIST / d3.NON_EVENT_DIST)
+    with np.errstate(divide='ignore'):
+        d3["WOE"] = np.log(d3.EVENT_DIST / d3.NON_EVENT_DIST)
     d3["IV"] = (d3.EVENT_DIST - d3.NON_EVENT_DIST) * d3["WOE"]
     d3["VAR_NAME"] = xname
     d3 = d3[
