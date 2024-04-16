@@ -1,3 +1,10 @@
+# IV Reference
+# below 0.02: not useful
+# 0.02 - 0.1: weak
+# 0.1 - 0.3: moderate
+# 0.3 - 0.5: strong
+# above 0.5: suspicious
+
 from typing import Tuple
 import pandas as pd
 import numpy as np
