@@ -24,9 +24,11 @@ def kscalc(target: List[int], prob: List[float], max_bins: int=10):
     kstable = pd.DataFrame()
     kstable['min_prob'] = grouped.min()['prob']
     kstable['max_prob'] = grouped.max()['prob']
+    kstable['avg_prob'] = grouped.mean()['prob']
     kstable['total']   = grouped.count()['target']
     kstable['events']   = grouped.sum()['target']
     kstable['nonevents'] = grouped.sum()['target0']
+    kstable['event_rate'] = kstable['events'] / kstable['total']
     kstable = kstable.sort_values(by="min_prob", ascending=False).reset_index(drop = True)
     kstable['event_pct'] = (kstable.events / data['target'].sum()).apply('{0:.2%}'.format)
     kstable['nonevent_pct'] = (kstable.nonevents / data['target0'].sum()).apply('{0:.2%}'.format)
@@ -45,7 +47,7 @@ def kscalc(target: List[int], prob: List[float], max_bins: int=10):
     kspartition = kstable.index[kstable['KS']==ks][0]
     
     #Check for rank order break
-    event_prob = (kstable['events']/(kstable['total'])).values
+    event_prob = kstable['event_rate'].values
     rob = list(find_rank_order_break(event_prob))[0]
     robpartition = kstable.index[rob] if rob else None
     
