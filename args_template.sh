@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USAGE="$(basename "$0") [-h|help] [-i|--infile filepath] [-o|--outfile filepath] [-m|--model filepath]
+USAGE="Usage: $(basename "$0") [-h|--help] [-i|--infile] filepath [-o|--outfile] filepath [-m|--model] filepath
 
 where:
 	-h, --help	Help
