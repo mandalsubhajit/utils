@@ -51,7 +51,7 @@ if [ -z "$MODEL" ] ; then
     exit 1
 fi
 
-if ! [ -f "$INFILE" ] ; then
+if ! [ -z "$INFILE" ] && ! [ -f "$INFILE" ] ; then
     echo "$INFILE does not exist!" 1>&2
     exit 1
 fi
@@ -62,7 +62,7 @@ echo 'can evaluate '"$FOO"' when single quote ended and double quote started.'
 
 # Print with color
 RED='\033[0;31m'
-GREEN='\033[0;31m'
+GREEN='\033[0;32m'
 NC='\033[0m' # No Color
-echo -e "I ${RED}love${NC} Stack Overflow\n"
-echo -e "I ${GREEN}`date`${NC}"
+echo "I ${RED}love${NC} Stack Overflow"
+echo "${GREEN}`date`${NC}"
