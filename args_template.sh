@@ -12,7 +12,7 @@ Examples: sh subhajit.sh -i a.txt -o b.txt -m c.pkl
 "
 
 opt_short="hiom:"
-opt_long="help,infile,outfile,model:"
+opt_long="help,infile,outfile,model,foo:"
 
 OPTS=$(getopt -o "$opt_short" -l "$opt_long" -- "$@")
 
@@ -36,6 +36,9 @@ do
         -m|--model)
             MODEL=$2
             shift 2 ;;
+        --foo)
+            FOO=$2
+            shift 2 ;;
         --) # End of input reading
             shift; break ;;
         * )
@@ -54,3 +57,5 @@ if ! [ -f "$INFILE" ] ; then
 fi
 
 echo "infile: $INFILE outfile: $OUTFILE model: $MODEL"
+echo 'cannot evaluate "$FOO" if double quote used within single quote.'
+echo 'can evaluate '"$FOO"' when single quote ended and double quote started.'
