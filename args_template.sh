@@ -59,3 +59,10 @@ fi
 echo "infile: $INFILE outfile: $OUTFILE model: $MODEL"
 echo 'cannot evaluate "$FOO" if double quote used within single quote.'
 echo 'can evaluate '"$FOO"' when single quote ended and double quote started.'
+
+# Print with color
+RED='\033[0;31m'
+GREEN='\033[0;31m'
+NC='\033[0m' # No Color
+echo -e "I ${RED}love${NC} Stack Overflow\n"
+echo -e "I ${GREEN}`date`${NC}"
