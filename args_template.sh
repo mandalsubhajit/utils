@@ -1,7 +1,18 @@
-# Usage: sh thisfile.sh [-i|--infile] a.txt [-o|--outfile] b.txt
+#!/bin/bash
 
-opt_short="iom:"
-opt_long="infile,outfile,model:"
+USAGE="$(basename "$0") [-h|help] [-i|--infile filepath] [-o|--outfile filepath] [-m|--model filepath]
+
+where:
+	-h, --help	Help
+	-i, --infile	Input file
+	-o, --outfile	Output file
+	-m, --model	Model file
+
+Examples: sh subhajit.sh -i a.txt -o b.txt -m c.pkl
+"
+
+opt_short="hiom:"
+opt_long="help,infile,outfile,model:"
 
 OPTS=$(getopt -o "$opt_short" -l "$opt_long" -- "$@")
 
@@ -13,6 +24,9 @@ fi
 while [ ! $# -eq 0 ]
 do
     case "$1" in
+        -h|--help) 
+            echo "$USAGE"
+            exit 0 ;;
         -i|--infile) 
             INFILE=$2
             shift 2 ;;
@@ -30,7 +44,12 @@ do
 done
 
 if [ -z "$MODEL" ] ; then
-    echo "Model is required! [-m | --model]" 1>&2
+    echo "Model argument is required! [-m | --model]" 1>&2
+    exit 1
+fi
+
+if ! [ -f "$INFILE" ] ; then
+    echo "$INFILE does not exist!" 1>&2
     exit 1
 fi
 
