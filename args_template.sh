@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Setting this option will make the code exit on first error
+# without continuing execution of remaining commands
+set -e
+
 # How to define and parse input arguments for shell script
 USAGE="Usage: $(basename "$0") [-h|--help] [-i|--infile] filepath [-o|--outfile] filepath [-m|--model] filepath
 
@@ -79,6 +83,11 @@ END=$(date +%s)
 echo End time: `TZ=Asia/Kolkata date`
 echo Time taken: $(( (END-START)/60 )) minute\(s\) and $(( (END-START)%60 )) second\(s\).
 echo $((END-START)) | awk '{print int($1/60)":"int($1%60)}'
+
+# Exit on first error: assuming xyz.txt does not exist
+echo hello
+cat xyz.txt
+echo world
 
 : "
 Color Reference:
