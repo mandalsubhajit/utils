@@ -72,6 +72,14 @@ NC='\033[0m' # No Color
 echo -e "I ${RED}love${NC} Stack Overflow"
 echo -e "${GREEN}`date`${NC}"
 
+# Print time elapsed
+START=$(date +%s)
+sleep 3 # Your stuff
+END=$(date +%s)
+echo End time: `date`
+echo Time taken: $(( (END-START)/60 )) minute\(s\) and $(( (END-START)%60 )) second\(s\).
+echo $((END-START)) | awk '{print int($1/60)":"int($1%60)}'
+
 : "
 Color Reference:
 
