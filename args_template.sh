@@ -1,7 +1,20 @@
 #!/bin/bash
 
-# Setting this option will make the code exit on first error
+# set -e will make the code exit on first error
 # without continuing execution of remaining commands
+# and abort will be called by trap: 0 below
+abort()
+{
+    echo >&2 '
+***************
+*** ABORTED ***
+***************
+'
+    exit 1
+}
+
+trap 'abort' 0
+
 set -e
 
 # How to define and parse input arguments for shell script
@@ -88,6 +101,8 @@ echo $((END-START)) | awk '{print int($1/60)":"int($1%60)}'
 echo hello
 cat xyz.txt
 echo world
+# This is where abort function will be called
+trap : 0
 
 : "
 Color Reference:
