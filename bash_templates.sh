@@ -1,10 +1,11 @@
 #!/bin/bash
 
-#######################
-# Error handling:
+####################### ERROR HANDLING #######################
 # "set -e" will make the code exit on first error
 # without continuing execution of remaining commands
 # and abort will be called by "trap : 0" at the very end
+# of this file after an error occurs
+
 abort()
 {
     echo >&2 '
@@ -18,8 +19,20 @@ abort()
 trap 'abort' 0
 
 set -e
-#######################
 
+# Your code here
+sleep 1
+# Your code here
+
+# This is where abort function will be called
+# Put this at the very end of your code
+trap : 0
+####################### ERROR HANDLING #######################
+
+
+
+
+###################### ARGUMENT PARSING ######################
 # How to define and parse input arguments for shell script
 USAGE="Usage: $(basename "$0") [-h|--help] [-i|--infile] filepath [-o|--outfile] filepath [-m|--model] filepath
 
@@ -28,8 +41,9 @@ where:
 	-i, --infile	Input file
 	-o, --outfile	Output file
 	-m, --model	Model file
+	--foo		some argument
 
-Examples: sh subhajit.sh -i a.txt -o b.txt -m c.pkl
+Examples: sh subhajit.sh -i a.txt -o b.txt -m c.pkl --foo 24
 "
 
 opt_short="hiom:"
@@ -80,10 +94,17 @@ if ! [ -z "$INFILE" ] && ! [ -f "$INFILE" ] ; then
 fi
 
 echo "infile: $INFILE outfile: $OUTFILE model: $MODEL"
+###################### ARGUMENT PARSING ######################
+
+
+
+
 
 # How to handle quotes within quotes
 echo 'cannot evaluate "$FOO" if double quotes used within single quotes.'
 echo 'can evaluate '"$FOO"' when single quotes ended and double quotes started.'
+
+
 
 # Print with color
 RED='\033[0;31m'
@@ -91,6 +112,8 @@ GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 echo -e "I ${RED}love${NC} Stack Overflow"
 echo -e "${GREEN}`date`${NC}"
+
+
 
 # Print time elapsed
 START=$(date +%s)
@@ -100,13 +123,7 @@ echo End time: `TZ=Asia/Kolkata date`
 echo Time taken: $(( (END-START)/60 )) minute\(s\) and $(( (END-START)%60 )) second\(s\).
 echo $((END-START)) | awk '{print int($1/60)":"int($1%60)}'
 
-# Exit on first error: assuming xyz.txt does not exist
-echo hello
-cat xyz.txt
-echo world
 
-# This is where abort function will be called
-trap : 0
 
 : "
 Color Reference:
