@@ -125,6 +125,13 @@ echo $((END-START)) | awk '{print int($1/60)":"int($1%60)}'
 
 
 
+# Get absolute directory path of this script
+full_path=$(realpath $0)
+dir_path=$(dirname $full_path)
+echo $dir_path
+
+
+
 : "
 Color Reference:
 
