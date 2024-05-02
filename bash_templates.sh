@@ -42,12 +42,16 @@ where:
 	-o, --outfile	Output file
 	-m, --model	Model file
 	--foo		some argument
+	--printdate	print date
 
-Examples: sh subhajit.sh -i a.txt -o b.txt -m c.pkl --foo 24
+Examples: sh $(basename "$0") -i a.txt -o b.txt -m c.pkl --foo 24 --printdate
 "
 
-opt_short="hiom:"
-opt_long="help,infile,outfile,model,foo:"
+# ':' means argument is required
+# e.g. ':' after 'inflile' means it expects a file path after '--infile'
+# '::' means argument is optional, if no argument found the value is read as "" (empty)
+opt_short="hi:o:m:"
+opt_long="help,infile:,outfile:,model:,foo,printdate"
 
 OPTS=$(getopt -o "$opt_short" -l "$opt_long" -- "$@")
 
@@ -74,6 +78,9 @@ do
         --foo)
             FOO=$2
             shift 2 ;;
+        --printdate)
+            echo `date`
+            shift ;;
         --) # End of input reading
             shift; break ;;
         * )
