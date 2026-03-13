@@ -4,7 +4,7 @@ from transformers import CLIPProcessor, CLIPModel
 
 # 1. Load the model and processor
 device = "cuda" if torch.cuda.is_available() else "cpu"
-model_id = "F:/work/clip-vit-base-patch32"
+model_id = "/path/to/clip-vit-base-patch32"
 model = CLIPModel.from_pretrained(model_id).to(device)
 processor = CLIPProcessor.from_pretrained(model_id)
 
