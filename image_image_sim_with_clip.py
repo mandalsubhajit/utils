@@ -9,7 +9,7 @@ model = CLIPModel.from_pretrained(model_id).to(device)
 processor = CLIPProcessor.from_pretrained(model_id)
 
 # 2. Load and preprocess your image
-image = Image.open("F:/2026/Goldman Sachs/20231123_184706.jpg").convert("RGB")
+image = Image.open("/path/to/image.jpg").convert("RGB")
 # inputs = processor(images=image, return_tensors="pt")
 inputs = processor(
 		text = None,
